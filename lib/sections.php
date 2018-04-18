@@ -172,24 +172,18 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
 	// Draw the section header
 	function mz_mindbody_server_check() {
 		$mz_requirements = 0;
-/*		if (version_compare(phpversion(), '5.3.10', '<')) {
-			echo '<h2>';
-    		_e('Sorry but this plugin requires php version 5.3.10 or greater.', 'mz-mindbody-api'); // php version isn't high enough
-    		echo '</h2>';
-    		die();
-		}*/
+
 		try {
-            if (! @include_once( 'System.php' )) // @ - to suppress warnings,
-              throw new Exception ('System.php does not exist.');
-            if (!file_exists('System.php' ))
-              throw new Exception ('System.php does not exist.');
-            else
-              require_once('System.php' );
-        }
-        catch(Exception $e) {
-          echo "Message : " . $e->getMessage() . "</br>";
-          echo "Code : " . $e->getCode() . "</br>";
-          _e("This could also be a php open_basedir setting issue. If plugin works as expected don't worry about it.", 'mz-mindbody-api');
+			if (! @include_once( 'System.php' ))
+			  throw new Exception ('Unable to include System.php.');
+			if (!file_exists('System.php' ))
+			  throw new Exception ('System.php does not exist.');
+			else
+			  require_once('System.php' );
+        } catch(Exception $e) {
+			echo "Message : " . $e->getMessage() . "</br>";
+			echo "Code : " . $e->getCode() . "</br>";
+			_e("This could also be a php open_basedir setting issue. If plugin works as expected don't worry about it.", 'mz-mindbody-api');
         }
 
 		if (extension_loaded('soap'))
