@@ -178,7 +178,19 @@ add_action ('admin_menu', 'mz_mindbody_settings_menu');
     		echo '</h2>';
     		die();
 		}*/
-		require_once 'System.php';
+		try {
+            if (! @include_once( 'System.php' )) // @ - to suppress warnings,
+              throw new Exception ('System.php does not exist.');
+            if (!file_exists('System.php' ))
+              throw new Exception ('System.php does not exist.');
+            else
+              require_once('System.php' );
+        }
+        catch(Exception $e) {
+          echo "Message : " . $e->getMessage() . "</br>";
+          echo "Code : " . $e->getCode() . "</br>";
+          _e("This could also be a php open_basedir setting issue. If plugin works as expected don't worry about it.", 'mz-mindbody-api');
+        }
 
 		if (extension_loaded('soap'))
 		{
